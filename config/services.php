@@ -33,7 +33,7 @@ return [
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
-        'redirect' => 'http://locahost:8000/auth/github/callback',
+        'redirect' => 'http://localhost:8000/auth/github/callback',
     ],
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
