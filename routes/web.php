@@ -4,9 +4,12 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('login.login');
+})->name('login');
 
+Route::get('/register', function () {
+    return view('login.register');
+})->name('login.register');
 
 Route::get('/auth/github/redirect', function () {
     return Socialite::driver('github')->redirect();
