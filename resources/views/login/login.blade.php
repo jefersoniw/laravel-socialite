@@ -48,11 +48,11 @@
                     </div>
                     <div class="row m-auto">
                         <div class="col-md-12">
-                            <a href="#">
+                            <a href="{{ url('/auth/google/redirect') }}">
                                 <img src="{{ asset('clear_theme/img/google.png') }}" data-toggle="tooltip"
                                     data-placement="top" title="Acesse com google" alt="Google" width="20%">
                             </a>
-                            <a href="{{ route('auth.github') }}">
+                            <a href="{{ url('/auth/github/redirect') }}">
                                 <img src="{{ asset('clear_theme/img/github_icon.png') }}" data-toggle="tooltip"
                                     data-placement="top" title="Acesse com github" alt="Google" width="20%">
                             </a>

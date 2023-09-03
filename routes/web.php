@@ -13,14 +13,19 @@ Route::get('/register', function () {
     return view('login.register');
 })->name('login.register');
 
-Route::get('/auth/github/redirect', function () {
-    return Socialite::driver('github')->redirect();
-})->name('auth.github');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
 
-Route::get('/auth/github/callback', function () {
-    $githubUser = Socialite::driver('github')->user();
+//GITHUB
+Route::get('/auth/{provider}/redirect', function ($provider) {
+    return Socialite::driver($provider)->redirect();
+});
 
-    $user = User::updateOrCreate([
+Route::get('/auth/{provider}/callback', function ($provider) {
+    $providerUser = Socialite::driver($provider)->user();
+    dd($providerUser);
+    /*$user = User::updateOrCreate([
         'github_id' => $githubUser->id,
     ], [
         'name' => $githubUser->name,
@@ -29,8 +34,7 @@ Route::get('/auth/github/callback', function () {
         'github_refresh_token' => $githubUser->refreshToken,
     ]);
 
-    Auth::login($user);
+    Auth::login($user);*/
 
-    return redirect('/dashboard');
-    // $user->token
+    return redirect()->route('dashboard');
 });
