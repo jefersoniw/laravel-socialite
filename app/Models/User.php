@@ -55,6 +55,9 @@ class User extends Authenticatable
             $user->name = $request['name'];
             $user->email = $request['email'];
             $user->password = $request['password'];
+            if (!$user->save()) {
+                throw new Exception("Erro ao cadastrar usuário");
+            }
 
             return $user;
         } catch (Exception $error) {
@@ -69,16 +72,33 @@ class User extends Authenticatable
         }
     }
 
+    public function updateUser(User $user, array $request)
+    {
+        try {
+            $user->name = $request['name'] ?? null;
+            $user->email = $request['email'] ?? null;
+            $user->password = $request['password'] ?? null;
+            if (!$user->save()) {
+                throw new Exception("Erro ao atualizar usuário");
+            }
+
+            return $user;
+        } catch (Exception $error) {
+            $erro = [
+                'error' => true,
+                'erro' => 'Erro ao atualizar usuário',
+                'erro_msg' => $error->getMessage(),
+                'erro_line' => $error->getLine(),
+            ];
+
+            return $erro;
+        }
+    }
+
     public function userByEmail(string $email)
     {
-        $user = self::where('email', $email)
-            ->whereNotNull('password')
-            ->first();
+        $user = self::where('email', $email)->first();
 
-        if (!!$user) {
-            return true;
-        } else {
-            return false;
-        }
+        return $user;
     }
 }

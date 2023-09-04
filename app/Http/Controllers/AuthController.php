@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -40,17 +41,43 @@ class AuthController extends Controller
 
     public function store(StoreUserRequest $request)
     {
+        DB::beginTransaction();
+        try {
+            $searchUser = $this->user->userByEmail($request->email);
 
-        $searchUser = $this->user->userByEmail($request->email);
+            if (!!$searchUser) {
+                if (!!$searchUser->password) {
+                    return \redirect()->route('login')->with('message', 'Usuário com este email ' . $request->email . ' já existente no sistema');
+                }
 
-        dd($searchUser);
+                $user = $this->user->updateUser($searchUser, $request->all());
 
-        if ($searchUser == true) {
-            return \redirect()->route('login')->with('message', 'Usuário com este email ' . $request->email . ' já existente no sistema');
+                if ($user['error'] == true) {
+                    throw new Exception();
+                }
+            } else {
+                $user = $this->user->storeUser($request->all());
+
+                if ($user['error'] == true) {
+                    throw new Exception();
+                }
+            }
+
+            DB::commit();
+
+            Auth::login($user);
+
+            return redirect()->route('dashboard');
+        } catch (Exception $error) {
+            DB::rollBack();
+
+            $erro = [
+                'erro' => 'Erro ao cadastrar usuário',
+                'erro_msg' => $error->getMessage(),
+                'erro_line' => $error->getLine(),
+            ];
+
+            return \redirect()->route('login')->with('message', $erro['erro'] . ' - ' . $erro['erro_msg']);
         }
-
-
-
-        $user = $this->user->storeUser($request->all());
     }
 }
