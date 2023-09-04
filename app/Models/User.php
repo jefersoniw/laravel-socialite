@@ -59,7 +59,6 @@ class User extends Authenticatable
             if (!$user->save()) {
                 throw new Exception("Erro ao cadastrar usuário");
             }
-
             return $user;
         } catch (Exception $error) {
             $erro = [
@@ -68,7 +67,6 @@ class User extends Authenticatable
                 'erro_msg' => $error->getMessage(),
                 'erro_line' => $error->getLine(),
             ];
-
             return $erro;
         }
     }
@@ -82,7 +80,6 @@ class User extends Authenticatable
             if (!$user->save()) {
                 throw new Exception("Erro ao atualizar usuário");
             }
-
             return $user;
         } catch (Exception $error) {
             $erro = [
@@ -91,7 +88,6 @@ class User extends Authenticatable
                 'erro_msg' => $error->getMessage(),
                 'erro_line' => $error->getLine(),
             ];
-
             return $erro;
         }
     }
@@ -99,7 +95,6 @@ class User extends Authenticatable
     public function userByEmail(string $email)
     {
         $user = self::where('email', $email)->first();
-
         return $user;
     }
 
@@ -107,7 +102,6 @@ class User extends Authenticatable
     {
 
         $user = self::where('email', $request['email'])->first();
-
         if (!$user) {
             return false;
         }
