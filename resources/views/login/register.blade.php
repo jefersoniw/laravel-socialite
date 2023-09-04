@@ -7,7 +7,17 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    <form action="" id="register" method="post" class="register">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('login.register') }}" id="register" method="post" class="register">
                         @csrf
 
                         <div class="form-group">
@@ -20,20 +30,22 @@
                         <div class="form-group">
                             <label for="name" class="sr-only"> Nome Completo</label>
                             <input type="text" class="form-control" id="name" name="name"
-                                placeholder="Nome Completo">
+                                placeholder="Nome Completo" value="{{ old('name') }}">
                         </div>
                         <div class="form-group">
                             <label for="email" class="sr-only"> E-mail</label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="E-mail">
+                            <input type="text" class="form-control" id="email" name="email" placeholder="E-mail"
+                                value="{{ old('email') }}">
                         </div>
                         <div class="form-group">
                             <label for="password" class="sr-only">Senha</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Senha">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Senha"
+                                value="{{ old('password') }}">
                         </div>
                         <div class="form-group">
                             <label for="repeat_password" class="sr-only">Repita a senha</label>
                             <input type="password" class="form-control" id="repeat_password" name="repeat_password"
-                                placeholder="Repita a senha">
+                                placeholder="Repita a senha" value="{{ old('repeat_password') }}">
                         </div>
 
                         <div class="form-group">

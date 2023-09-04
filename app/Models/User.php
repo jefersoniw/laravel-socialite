@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,9 +23,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'github_id',
-        'github_token',
-        'github_refresh_token',
+        'provider_id',
+        'provider_avatar',
+        'provider_name',
     ];
 
     /**
@@ -45,4 +47,38 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function storeUser(array $request)
+    {
+        try {
+            $user = new self;
+            $user->name = $request['name'];
+            $user->email = $request['email'];
+            $user->password = $request['password'];
+
+            return $user;
+        } catch (Exception $error) {
+            $erro = [
+                'error' => true,
+                'erro' => 'Erro ao cadastrar usuário',
+                'erro_msg' => $error->getMessage(),
+                'erro_line' => $error->getLine(),
+            ];
+
+            return $erro;
+        }
+    }
+
+    public function userByEmail(string $email)
+    {
+        $user = self::where('email', $email)
+            ->whereNotNull('password')
+            ->first();
+
+        if (!!$user) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

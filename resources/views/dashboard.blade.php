@@ -9,11 +9,10 @@
 </head>
 
 <body>
-    @dd(auth()->user())
     <h3>CONSEGUI LOGAR NO SISTEMA</h3>
-    <h5>{{ auth()->user()->name }}</h5>
+    <h5>{{ auth()->user()->name }} - {{ auth()->user()->provider_name }}</h5>
     <p>
-        <a href="#" class="btn btn-danger">
+        <a href="{{ route('logout') }}" class="btn btn-danger">
             Sair
         </a>
     </p>
