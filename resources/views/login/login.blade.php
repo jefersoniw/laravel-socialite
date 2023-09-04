@@ -13,7 +13,22 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                        <form action="#" id="authentication" method="post" class="login_validator">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (session('message'))
+                            <div class="alert alert-danger">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+
+                        <form action="{{ route('auth.login') }}" id="authentication" method="post" class="login_validator">
                             @csrf
 
                             <div class="form-group">
@@ -48,11 +63,11 @@
                     </div>
                     <div class="row m-auto">
                         <div class="col-md-12">
-                            <a href="{{ url('/auth/google/redirect') }}">
+                            <a href="{{ route('auth.redirect', 'google') }}">
                                 <img src="{{ asset('clear_theme/img/google.png') }}" data-toggle="tooltip"
                                     data-placement="top" title="Acesse com google" alt="Google" width="20%">
                             </a>
-                            <a href="{{ url('/auth/github/redirect') }}">
+                            <a href="{{ route('auth.redirect', 'github') }}">
                                 <img src="{{ asset('clear_theme/img/github_icon.png') }}" data-toggle="tooltip"
                                     data-placement="top" title="Acesse com github" alt="Google" width="20%">
                             </a>

@@ -1,40 +1,15 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SocialiteController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 
-Route::get('/', function () {
-    return view('login.login');
-})->name('login');
+Route::post('/auth', [AuthController::class, 'auth'])->name('auth.login');
+Route::get('/', [AuthController::class, 'login'])->name('login');
+Route::get('/register', [AuthController::class, 'register'])->name('login.register');
+Route::post('/register', [AuthController::class, 'store'])->name('login.register');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/dashboard', [AuthController::class, 'index'])->name('dashboard')->middleware('auth');
 
-Route::get('/register', function () {
-    return view('login.register');
-})->name('login.register');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-
-//GITHUB
-Route::get('/auth/{provider}/redirect', function ($provider) {
-    return Socialite::driver($provider)->redirect();
-});
-
-Route::get('/auth/{provider}/callback', function ($provider) {
-    $providerUser = Socialite::driver($provider)->user();
-    dd($providerUser);
-    /*$user = User::updateOrCreate([
-        'github_id' => $githubUser->id,
-    ], [
-        'name' => $githubUser->name,
-        'email' => $githubUser->email,
-        'github_token' => $githubUser->token,
-        'github_refresh_token' => $githubUser->refreshToken,
-    ]);
-
-    Auth::login($user);*/
-
-    return redirect()->route('dashboard');
-});
+Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('auth.redirect');
+Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('auth.callback');

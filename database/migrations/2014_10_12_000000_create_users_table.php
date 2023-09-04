@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('github_id')->nullable();
-            $table->string('github_token')->nullable();
-            $table->string('github_refresh_token')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->string('provider_id')->nullable();
+            $table->string('provider_avatar')->nullable();
+            $table->string('provider_name')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });
