@@ -28,7 +28,7 @@
                             </div>
                         @endif
 
-                        <form action="#" id="authentication" method="post" class="login_validator">
+                        <form action="{{ route('auth.login') }}" id="authentication" method="post" class="login_validator">
                             @csrf
 
                             <div class="form-group">

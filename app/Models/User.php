@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -100,5 +101,21 @@ class User extends Authenticatable
         $user = self::where('email', $email)->first();
 
         return $user;
+    }
+
+    public function findLogin(array $request)
+    {
+
+        $user = self::where('email', $request['email'])->first();
+
+        if (!$user) {
+            return false;
+        }
+
+        if (Hash::check($request['password'], $user->password) == true) {
+            return $user;
+        } else {
+            return false;
+        }
     }
 }

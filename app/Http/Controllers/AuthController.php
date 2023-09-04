@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Exception;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -79,5 +81,18 @@ class AuthController extends Controller
 
             return \redirect()->route('login')->with('message', $erro['erro'] . ' - ' . $erro['erro_msg']);
         }
+    }
+
+    public function auth(LoginRequest $request)
+    {
+        $user = $this->user->findLogin($request->all());
+
+        if (!$user) {
+            return \redirect()->route('login')->with('message', 'Usuário e/ou senha incorretos');
+        }
+
+        Auth::login($user);
+
+        return \redirect()->route('dashboard');
     }
 }
