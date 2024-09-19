@@ -17,7 +17,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('login.register') }}" id="register" method="post" class="register">
+                    <form action="{{ route('login.store') }}" id="register" method="post" class="register">
                         @csrf
 
                         <div class="form-group">
