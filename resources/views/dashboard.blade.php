@@ -30,8 +30,7 @@
         <nav class="navbar navbar-static-top" role="navigation">
             <a href="index.html" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the marginin -->
-                {{-- <img src="{{ asset('clear_theme/img/logo_white.png') }}" alt="logo" /> --}}
-                <span><b>SOCIALITE</b></span>
+                <img src="{{ asset('clear_theme/img/logo_white.png') }}" alt="logo" />
             </a>
             <!-- Header Navbar: style can be found in header-->
             <!-- Sidebar toggle button-->
